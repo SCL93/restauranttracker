@@ -30,3 +30,11 @@ a QR code will be generated, which can be scanned by the restaurant to confirm t
 proximity tracking which is not persistent, but only active whenever someone visits a restaurant. In addition, the 
 use would not be limited to COVID-19, but for future pandemic tracking as well. 
 
+
+## User Stories ##
+
+- As a user, I want to be able to add customers, and their contact information to a list
+- As a user, I want to be able to delete customers from customer list
+- As a user, I want to be able to see the current list of customers for a day
+- As a user, I want a separate list of customers for each business day
+- As a user, I want to be able to filter for customers in a list given a list of names

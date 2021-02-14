@@ -33,8 +33,8 @@ use would not be limited to COVID-19, but for future pandemic tracking as well.
 
 ## User Stories ##
 
-- As a user, I want to be able to add customers, and their contact information to a list
-- As a user, I want to be able to delete customers from customer list
-- As a user, I want to be able to see the current list of customers for a day
-- As a user, I want a separate list of customers for each business day
-- As a user, I want to be able to filter for customers in a list given a list of names
+- As a user, I want to be able to create new customers and add customer information - elements - to each customer
+- As a user, I want to be able to store each new customer in a list
+- As a user, I want to be able to see the entire list of customers visiting the restaurant each day
+- As a user, I want to be able to filter customers in the list based on their check in time
+- As a user, I want to be able to see the entire list of customers which meet filter criteria, along with customer info

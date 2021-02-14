@@ -35,6 +35,6 @@ use would not be limited to COVID-19, but for future pandemic tracking as well.
 
 - As a user, I want to be able to create new customers and add customer information - elements - to each customer
 - As a user, I want to be able to store each new customer in a list
-- As a user, I want to be able to see the entire list of customers visiting the restaurant each day
+- As a user, I want to be able to randomly select a customer
 - As a user, I want to be able to filter customers in the list based on their check in time
 - As a user, I want to be able to see the entire list of customers which meet filter criteria, along with customer info

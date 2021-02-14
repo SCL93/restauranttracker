@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Alert {
 
+    // this class takes in the covid positive customer check-in time and customer array list, filtering for customers
+    // who have visited the restaurant within +/- 1 hour of covid positive customer time.
+
     // REQUIRES: Arraylist<Customer> to not be empty
     // MODIFIES: this
     // EFFECTS: checks entire customer list with "contagious" time, produces list of customers potentially infected.

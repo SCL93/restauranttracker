@@ -101,12 +101,15 @@ public class RestaurantApp {
         System.out.println(" ");
         System.out.println("-------------Begin COVID Analysis----------------");
         System.out.println(" ");
+
         // randomly select person to get COVID
         int indexInfected = Infected.randomCovidSelect(todayCustomers);
         System.out.println("Today's unlucky number is...." + indexInfected + "!");
         System.out.println(" ");
         Customer infectedCustomer = Infected.covidSelectedCustomer(todayCustomers, indexInfected);
         String infectedCustomerName = Infected.covidSelectedName(infectedCustomer);
+
+        //print randomly selected person name
         System.out.println("Oh no! Looks like " + infectedCustomerName + " got COVID-19!");
         System.out.println(" ");
         int infectedCheckInTime = Infected.covidSelectedTime(infectedCustomer);
@@ -114,6 +117,8 @@ public class RestaurantApp {
                 + ":00h" + " need " + "to be contacted---");
         System.out.println(" ");
         System.out.println("------------Full list of Customers we need to contact------------");
+
+        // filters for customers in array that may have come into contact with infected customer
         ArrayList<Customer> infectedToday = Alert.othersInfected(infectedCheckInTime, todayCustomers);
         printAll(infectedToday);
     }

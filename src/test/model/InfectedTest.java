@@ -39,7 +39,7 @@ class InfectedTest {
         int lastIndexNumber = 0;
         for (int i = 0; i < 10; i++) {
             int randomNumber = Infected.randomCovidSelect(testList);
-            if(lastIndexNumber != randomNumber) {
+            if (lastIndexNumber != randomNumber) {
                 timesDifferentIndexSelected++;
                 lastIndexNumber = randomNumber;
             }
@@ -52,19 +52,5 @@ class InfectedTest {
     void testCovidSelectCustomer() {
         Customer resultCustomer = Infected.covidSelectedCustomer(testList, 3);
         assertEquals(testCustomer4, resultCustomer);
-    }
-
-    @Test
-        // test covidSelectName method
-    void testCovidSelectName() {
-        String resultName = Infected.covidSelectedName(testCustomer1);
-        assertEquals("John", resultName);
-    }
-
-    @Test
-        // test covidSelectTime method
-    void testCovidSelectTime() {
-        int resultTime = Infected.covidSelectedTime(testCustomer4);
-        assertEquals(4, resultTime);
     }
 }

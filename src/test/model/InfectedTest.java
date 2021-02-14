@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InfectedTest {
+public class InfectedTest {
     private Customer testCustomer1;
     private Customer testCustomer2;
     private Customer testCustomer3;

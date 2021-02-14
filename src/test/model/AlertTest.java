@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AlertTest {
+class AlertTest {
     private Customer testCustomer1;
     private Customer testCustomer2;
     private Customer testCustomer3;
@@ -23,6 +23,12 @@ public class AlertTest {
                 "pm@gmail.com", "840643210", 3);
         testCustomer4 = new Customer("markus", "naslund",
                 "mk@gmail.com", "454034073", 4);
+    }
+
+    @Test
+    void constructorTest() {
+        Alert test = new Alert();
+        assertTrue(test != null);
     }
 
     @Test

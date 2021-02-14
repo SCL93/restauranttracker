@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InfectedTest {
+class InfectedTest {
     private Customer testCustomer1;
     private Customer testCustomer2;
     private Customer testCustomer3;
@@ -33,13 +33,19 @@ public class InfectedTest {
     }
 
     @Test
+    void constructorTest() {
+        Infected test = new Infected();
+        assertTrue(test != null);
+    }
+
+    @Test
         // test randomCovidSelector to see if truly random
     void testRandomCovidSelect() {
         int timesDifferentIndexSelected = 0;
         int lastIndexNumber = 0;
         for (int i = 0; i < 10; i++) {
             int randomNumber = Infected.randomCovidSelect(testList);
-            if(lastIndexNumber != randomNumber) {
+            if (lastIndexNumber != randomNumber) {
                 timesDifferentIndexSelected++;
                 lastIndexNumber = randomNumber;
             }

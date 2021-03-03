@@ -33,8 +33,14 @@ use would not be limited to COVID-19, but for future pandemic tracking as well.
 
 ## User Stories ##
 
+PHASE 1
 - As a user, I want to be able to create new customers and add customer information - elements - to each customer
 - As a user, I want to be able to store each new customer in a list
 - As a user, I want to be able to randomly select a customer
 - As a user, I want to be able to filter customers in the list based on their check in time
 - As a user, I want to be able to see the entire list of customers which meet filter criteria, along with customer info
+
+PHASE 2
+- As a user, I want to be able to save the list of customers each day to a file
+- As a user, I want to be able to load the list of customers from a file
+

@@ -5,49 +5,91 @@ import model.Customer;
 import model.Infected;
 
 import java.util.*;
-import java.util.Random;
 
 public class RestaurantApp {
     private Scanner input;
-    private ArrayList<Customer> todayCustomers = new ArrayList<>();
+    private final ArrayList<Customer> todayCustomers = new ArrayList<>();
 
 
     // EFFECTS: starts the Restaurant application
     public RestaurantApp() {
+        Date today = Calendar.getInstance().getTime();
+        System.out.println("------------- THE COVID-19 RESTAURANT -------------");
+        System.out.println("------- Today is " + today + "--------");
+        System.out.println("   ");
         startRestaurant();
     }
 
     // MODIFIES: this
     // EFFECTS: starts day at restaurant, process user input in console
     public void startRestaurant() {
-        boolean workingHours = true;  //
         String userInput;
-
-        while (workingHours) {
-            openingInterface();
-            input = new Scanner(System.in);
-            userInput = input.next();
-            userInput = userInput.toUpperCase();
-            if (userInput.equals("E")) {
-                workingHours = false;
-            } else {
-                processInput(userInput);
-            }
-        }
-
-        startEndOfDay();
-
+        openingInterface();
+        input = new Scanner(System.in);
+        userInput = input.next();
+        userInput = userInput.toUpperCase();
+        processInputOpen(userInput);
     }
 
     // MODIFIES: this
-    // EFFECTS: processes user input for adding new customer
-    public void processInput(String userInput) {
+    // EFFECTS: closes day at restaurant, process user input in console
+    public void closeRestaurant() {
+        boolean notClosed = true;
+        String userInput;
+
+        while (notClosed) {
+            closingInterface();
+            input = new Scanner(System.in);
+            userInput = input.next();
+            userInput = userInput.toUpperCase();
+            if (userInput.equals("Q")) {
+                notClosed = false;
+            } else {
+                processInputClose(userInput);
+            }
+        }
+        System.out.println("\n Goodbye!");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes user input for opening menu
+    public void processInputOpen(String userInput) {
         if (userInput.equals("N")) {
             addNewCustomer();
+        } else if (userInput.equals("E")) {
+            closeRestaurant();
         } else {
             System.out.println("Input is not valid, please select N or E");
         }
     }
+
+    // MODIFIES: this
+    // EFFECTS: processes user input for closing menu
+    public void processInputClose(String userInput) {
+        if (userInput.equals("A")) {
+            startCovidAnalysis();
+        } else {
+            System.out.println("Input is not valid, please select N or E");
+        }
+    }
+
+    // EFFECTS: display OPENING menu and options
+    public void openingInterface() {
+        System.out.println("Please Choose:");
+        System.out.println("\tN -> Add NEW customer");
+        System.out.println("\tL -> LOAD customer list from file");
+        System.out.println("\tS -> SAVE customer list to file");
+        System.out.println("\tE -> END day, Analyze and View COVID-19 transmission");
+    }
+
+    // EFFECTS: display CLOSING menu and options
+    public void closingInterface() {
+        System.out.println("------------Restaurant is now Closed------------");
+        System.out.println("Please Choose:");
+        System.out.println("\tA -> Randomize and Analyze COVID Transmission");
+        System.out.println("\tQ -> Quit");
+    }
+
 
     // MODIFIES: this
     // EFFECTS: Initializes customer and adds to arraylist with user input details
@@ -80,25 +122,12 @@ public class RestaurantApp {
             System.out.println(c.getFirstName() + " " + c.getLastName());
         }
         System.out.println(" ");
-        System.out.println(" ");
-    }
 
-
-    // EFFECTS: display OPENING menu and options
-    public void openingInterface() {
-        Date today = Calendar.getInstance().getTime();
-        System.out.println("------------- THE COVID-19 RESTAURANT -------------");
-        System.out.println("------- Today is " + today + "--------");
-        System.out.println("   ");
-        System.out.println("Please Choose:");
-        System.out.println("\tN -> Add NEW customer");
-        System.out.println("\tE -> END day and Analyze COVID-19 transmission");
+        startRestaurant();
     }
 
     // EFFECTS: displays and starts EndOfDay protocol
-    public void startEndOfDay() {
-        System.out.println("------------Restaurant is now Closed------------");
-        System.out.println(" ");
+    public void startCovidAnalysis() {
         System.out.println("-------------Begin COVID Analysis----------------");
         System.out.println(" ");
 
@@ -131,5 +160,7 @@ public class RestaurantApp {
             System.out.println(c.getFirstName() + " " + c.getLastName() + " / " + "Email:" + c.getEmail()
                     + " / " + "Phone#:" + c.getPhoneNumber());
         }
+        System.out.println(" ");
+        System.out.println(" ");
     }
 }

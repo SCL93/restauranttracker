@@ -1,0 +1,10 @@
+{
+  "name": "2/3",
+  "customers": [{
+    "Email": "as",
+    "FirstName": "asdf",
+    "PhoneNumber": "df",
+    "LastName": "asdf",
+    "CheckInTime": 14
+  }]
+}

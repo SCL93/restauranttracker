@@ -1,7 +1,10 @@
 package model;
 
 
-public class Customer {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public class Customer implements Writable {
 
     // FIELDS
     private final String firstName;
@@ -20,6 +23,17 @@ public class Customer {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.checkInTime = checkInTime;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("firstName", firstName);
+        json.put("lastName", lastName);
+        json.put("email", email);
+        json.put("phoneNumber", phoneNumber);
+        json.put("checkInTime", checkInTime);
+        return json;
     }
 
     //EFFECTS: returns firstName

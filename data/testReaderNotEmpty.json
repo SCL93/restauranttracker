@@ -1,0 +1,10 @@
+{
+  "name": "test",
+  "customers": [{
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "(604)333-3333",
+    "checkInTime": 1,
+    "email": "johndoe@gmail.com"
+  }]
+}

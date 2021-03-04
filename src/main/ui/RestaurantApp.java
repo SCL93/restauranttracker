@@ -2,17 +2,32 @@ package ui;
 
 import model.Alert;
 import model.Customer;
+import model.CustomerList;
 import model.Infected;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class RestaurantApp {
+    private static final String FILE_LOCATION = "./data/customerList.json";
     private Scanner input;
-    private final ArrayList<Customer> todayCustomers = new ArrayList<>();
-
+    private CustomerList customerListJson;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: starts the Restaurant application
     public RestaurantApp() {
+        Calendar timeNow = Calendar.getInstance();
+        int month = timeNow.get(Calendar.MONTH);
+        int day = timeNow.get(Calendar.DATE);
+        int year = timeNow.get(Calendar.YEAR);
+        customerListJson = new CustomerList(day + "/" + month + "/" + year);
+        jsonWriter = new JsonWriter(FILE_LOCATION);
+        jsonReader = new JsonReader(FILE_LOCATION);
+
         Date today = Calendar.getInstance().getTime();
         System.out.println("------------- THE COVID-19 RESTAURANT -------------");
         System.out.println("------- Today is " + today + "--------");
@@ -56,10 +71,15 @@ public class RestaurantApp {
     public void processInputOpen(String userInput) {
         if (userInput.equals("N")) {
             addNewCustomer();
+            startRestaurant();
+        } else if (userInput.equals("S")) {
+            saveCustomerListJson();
+            startRestaurant();
         } else if (userInput.equals("E")) {
             closeRestaurant();
         } else {
             System.out.println("Input is not valid, please select N or E");
+            startRestaurant();
         }
     }
 
@@ -68,6 +88,8 @@ public class RestaurantApp {
     public void processInputClose(String userInput) {
         if (userInput.equals("A")) {
             startCovidAnalysis();
+        } else if (userInput.equals("L")) {
+            loadCustomerListFromJson();
         } else {
             System.out.println("Input is not valid, please select N or E");
         }
@@ -77,7 +99,7 @@ public class RestaurantApp {
     public void openingInterface() {
         System.out.println("Please Choose:");
         System.out.println("\tN -> Add NEW customer");
-        System.out.println("\tL -> LOAD customer list from file");
+//        System.out.println("\tL -> LOAD customer list from file");
         System.out.println("\tS -> SAVE customer list to file");
         System.out.println("\tE -> END day, Analyze and View COVID-19 transmission");
     }
@@ -86,6 +108,7 @@ public class RestaurantApp {
     public void closingInterface() {
         System.out.println("------------Restaurant is now Closed------------");
         System.out.println("Please Choose:");
+        System.out.println("\tL -> LOAD customer list from file");
         System.out.println("\tA -> Randomize and Analyze COVID Transmission");
         System.out.println("\tQ -> Quit");
     }
@@ -106,7 +129,6 @@ public class RestaurantApp {
         String phoneNumber = userInput.nextLine();
         System.out.println("------------- Please follow your server to be seated --------------");
         System.out.println(" ");
-        System.out.println(" ");
 
         //Create calendar instance during time of Customer input in loop
         Calendar timeNow = Calendar.getInstance();
@@ -114,23 +136,50 @@ public class RestaurantApp {
 
         //Create new Customer Object and add into array with above info
         Customer customer = new Customer(firstName, lastName, email, phoneNumber, hourNow);
-        todayCustomers.add(customer);
 
-        //prints Customer list to show many many people booked so far today
+        // ADD new customer Object to CustomerList object
+        customerListJson.addCustomerToList(customer);
+
+        //prints Customer list to show how many people booked so far today
         System.out.println("------TODAY'S CUSTOMER'S SO FAR------------");
-        for (Customer c : todayCustomers) {
+        for (Customer c : customerListJson.getCustomerSoFar()) {
             System.out.println(c.getFirstName() + " " + c.getLastName());
         }
         System.out.println(" ");
-
-        startRestaurant();
     }
+
+    // EFFECTS: save the customerListJson to file
+    private void saveCustomerListJson() {
+        try {
+            jsonWriter.startWriting();
+            jsonWriter.write(customerListJson);
+            jsonWriter.closeWriting();
+            System.out.println("Customer List has been saved to:" + FILE_LOCATION);
+            System.out.println(" ");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found, unable to write and save to: " + FILE_LOCATION);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads customerList from save file (replaces current customerList!)
+    private void loadCustomerListFromJson() {
+        try {
+            customerListJson = jsonReader.read();       /// LOADS SAVED INTO CUSTOMER LIST OBJECT
+            System.out.println("Loaded saved CustomerList from JSON file");
+        } catch (IOException e) {
+            System.out.println("File not found, did not load file");
+        }
+    }
+
 
     // EFFECTS: displays and starts EndOfDay protocol
     public void startCovidAnalysis() {
         System.out.println("-------------Begin COVID Analysis----------------");
         System.out.println(" ");
 
+        // extract ARRAYLIST (element of CustomerList) from CustomerList Object
+        ArrayList<Customer> todayCustomers = customerListJson.getCustomerSoFar();
         // randomly select person to get COVID
         int indexInfected = Infected.randomCovidSelect(todayCustomers);
         System.out.println("Today's unlucky number is...." + indexInfected + "!");
@@ -148,7 +197,7 @@ public class RestaurantApp {
         System.out.println("------------Full list of Customers we need to contact------------");
 
         // filters for customers in array that may have come into contact with infected customer
-        ArrayList<Customer> infectedToday = Alert.othersInfected(infectedCheckInTime, todayCustomers);
+        ArrayList<Customer> infectedToday = Alert.othersInfected(infectedCheckInTime,todayCustomers);
         printAll(infectedToday);
     }
 

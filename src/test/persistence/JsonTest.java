@@ -1,3 +1,5 @@
+// structure from CPSC 210 JSON serialization DEMO
+
 package persistence;
 
 import model.Customer;

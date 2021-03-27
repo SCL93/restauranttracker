@@ -1,10 +1,10 @@
 {
-  "name": "2/3",
+  "name": "27/2/2021",
   "customers": [{
-    "Email": "as",
-    "FirstName": "asdf",
-    "PhoneNumber": "df",
-    "LastName": "asdf",
-    "CheckInTime": 14
+    "firstName": "asdf",
+    "lastName": "asdf",
+    "phoneNumber": "asdf",
+    "checkInTime": 0,
+    "email": "asdf"
   }]
 }

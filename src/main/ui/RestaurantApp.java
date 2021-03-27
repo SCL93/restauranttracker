@@ -6,20 +6,41 @@ import model.CustomerList;
 import model.Infected;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import ui.tabs.AddCustomerTab;
+import ui.tabs.AnalyzeTab;
+import ui.tabs.HomeTab;
+import ui.tabs.Tab;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-public class RestaurantApp {
+public class RestaurantApp extends JFrame {
     private static final String FILE_LOCATION = "./data/customerList.json";
     private Scanner input;
     private CustomerList customerListJson;
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
+    public static final int FRAME_HEIGHT = 800;
+    public static final int FRAME_WIDTH = 1000;
+    public static final int HOME_TAB_INDEX = 0;
+    public static final int ADD_CUSTOMER_TAB_INDEX = 1;
+    public static final int ANALYZE_TAB_INDEX = 2;
+    private final JTabbedPane topTabs;
 
+    // MODIFIES: this
     // EFFECTS: starts the Restaurant application
     public RestaurantApp() {
+        super("The COVID-19 RESTAURANT");
+        topTabs = new JTabbedPane();// generate JFrame tab pane (overall window)
+        topTabs.setSize(FRAME_WIDTH, FRAME_HEIGHT); // set size of overall window, default tabs at TOP
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // if multiple JFrame, only close this one.
+
+        createJTabPaneTab();     // creates all the tabs and adds to JTabbedPane object
+        add(topTabs);            //
+        setVisible(true);
+
         Calendar timeNow = Calendar.getInstance();
         int month = timeNow.get(Calendar.MONTH);
         int day = timeNow.get(Calendar.DATE);
@@ -33,6 +54,30 @@ public class RestaurantApp {
         System.out.println("------- Today is " + today + "--------");
         System.out.println("   ");
         startRestaurant();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates and adds home/add customer/analyze tabs to topTabs JTabbedPane
+    private void createJTabPaneTab() {
+        JPanel homeTab = new HomeTab(this);
+        JPanel addCustomerTab = new AddCustomerTab(this);
+        JPanel analyzeTab = new AnalyzeTab(this);
+
+        topTabs.add(homeTab, HOME_TAB_INDEX);
+        topTabs.setTitleAt(HOME_TAB_INDEX, "HOME");
+
+        topTabs.add(addCustomerTab, ADD_CUSTOMER_TAB_INDEX);
+        topTabs.setTitleAt(ADD_CUSTOMER_TAB_INDEX, "ADD CUSTOMER");
+
+        topTabs.add(analyzeTab, ANALYZE_TAB_INDEX);
+        topTabs.setTitleAt(ANALYZE_TAB_INDEX, "ANALYZE");
+        add(topTabs); // adds the modified topTabs (a JTabbedFrame object) to the container
+
+    }
+
+    // EFFECTS: returns topTaps of the JTabbedPane
+    public JTabbedPane getTabbedPane() {
+        return topTabs;
     }
 
     // MODIFIES: this
@@ -197,7 +242,7 @@ public class RestaurantApp {
         System.out.println("------------Full list of Customers we need to contact------------");
 
         // filters for customers in array that may have come into contact with infected customer
-        ArrayList<Customer> infectedToday = Alert.othersInfected(infectedCheckInTime,todayCustomers);
+        ArrayList<Customer> infectedToday = Alert.othersInfected(infectedCheckInTime, todayCustomers);
         printAll(infectedToday);
     }
 

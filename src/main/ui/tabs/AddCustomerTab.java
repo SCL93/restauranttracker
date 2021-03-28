@@ -6,15 +6,19 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.RestaurantApp;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 
 public class AddCustomerTab extends Tab {
+    private JScrollPane customerListPane;
+    private JTextArea customerListText;
     private JTextField firstNameField = new JTextField();
     private JTextField lastNameField = new JTextField();
     private JTextField phoneNumberField = new JTextField();
@@ -27,9 +31,16 @@ public class AddCustomerTab extends Tab {
 
     public AddCustomerTab(RestaurantApp controller) {
         super(controller);
+
+        Calendar timeNow = Calendar.getInstance();
+        int month = timeNow.get(Calendar.MONTH);
+        int day = timeNow.get(Calendar.DATE);
+        int year = timeNow.get(Calendar.YEAR);
         customerListJson = new CustomerList(day + "/" + month + "/" + year);
         jsonWriter = new JsonWriter(FILE_LOCATION);
         jsonReader = new JsonReader(FILE_LOCATION);
+
+
         this.setLayout(new GridLayout(10, 1, 1, 1));
         addLabelInputFields("First Name", firstNameField);
         addLabelInputFields("Last Name", lastNameField);
@@ -39,15 +50,12 @@ public class AddCustomerTab extends Tab {
         placeLoadButton();
         placeSaveButton();
         placeAllCustomerTextBox();
-
-        JTextField text1 = new JTextField();
-        this.add(text1);
-
+        placeCustomerListLabel();
     }
 
     public void addLabelInputFields(String type, JTextField inputField) {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
+        panel.setLayout(new GridLayout(1, 2));
         JLabel label = new JLabel(type);
         inputField.setColumns(15);
         panel.add(label);
@@ -63,7 +71,6 @@ public class AddCustomerTab extends Tab {
         panel.add(addCustomerButton);
         this.add(panel);
 
-
         addCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,36 +80,44 @@ public class AddCustomerTab extends Tab {
                     String lastName = lastNameField.getText();
                     String phoneNumber = phoneNumberField.getText();
                     String email = emailField.getText();
+                    Calendar timeNow = Calendar.getInstance();
                     int hourNow = timeNow.get(Calendar.HOUR_OF_DAY);
                     Customer customer = new Customer(firstName, lastName, email, phoneNumber, hourNow);
                     customerListJson.addCustomerToList(customer);
+                    clearAllTextField();
 
                 }
             }
         });
-
-
     }
 
-    public void placeAllCustomerTextBox() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-        JTextArea customerField = new JTextArea();
-        for (Customer c : customerListJson.getCustomerSoFar()) {
-            customerField.append(c.getFirstName() + " " + c.getLastName());
-        }
-        this.add(panel);
+    private void clearAllTextField() {
+        firstNameField.setText("");
+        lastNameField.setText("");
+        phoneNumberField.setText("");
+        emailField.setText("");
     }
 
     private void placeLoadButton() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
         JButton loadButton = new JButton("LOAD");
-        this.add(loadButton);
+        panel.add(loadButton);
+        this.add(panel);
 
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == loadButton) {
-                    loadCustomerListFromJson();
+                    try {
+                        loadCustomerListFromJson();
+                    } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
+                        unsupportedAudioFileException.printStackTrace();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (LineUnavailableException lineUnavailableException) {
+                        lineUnavailableException.printStackTrace();
+                    }
 //                    welcomeMessage.setText("CUSTOMER LIST LOADED FROM FILE");
                 }
 
@@ -112,15 +127,27 @@ public class AddCustomerTab extends Tab {
     }
 
     private void placeSaveButton() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
         JButton saveButton = new JButton("SAVE");
-        this.add(saveButton);
+        panel.add(saveButton);
+        this.add(panel);
 
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == saveButton) {
                     saveCustomerListJson();
-//                    welcomeMessage.setText("CUSTOMER LIST SAVED TO FILE");
+                    try {
+                        playBells();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
+                        unsupportedAudioFileException.printStackTrace();
+                    } catch (LineUnavailableException lineUnavailableException) {
+                        lineUnavailableException.printStackTrace();
+                    }
+
                 }
 
             }
@@ -143,31 +170,58 @@ public class AddCustomerTab extends Tab {
 
     // MODIFIES: this
     // EFFECTS: loads customerList from save file (replaces current customerList!)
-    public void loadCustomerListFromJson() {
+    public void loadCustomerListFromJson() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         try {
             customerListJson = jsonReader.read();       /// LOADS SAVED INTO CUSTOMER LIST OBJECT
             System.out.println("Loaded saved CustomerList from JSON file");
         } catch (IOException e) {
             System.out.println("File not found, did not load file");
         }
+        playBells();
     }
 
+    public void placeAllCustomerTextBox() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 2));
+        customerListPane = new JScrollPane(new JTextArea(10, 40));
+        customerListText = new JTextArea("", 10, 40);
+        customerListText.setVisible(true);
 
+        JButton b1 = new JButton("Update");
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == b1) {
+                    customerListText.setText("");
+                    for (Customer c : customerListJson.getCustomerSoFar()) {
+                        customerListText.append(c.getFirstName() + " " + c.getLastName() + "\n");
+                    }
+                }
+            }
+        });
+        customerListPane.setViewportView(customerListText);
+        panel.add(customerListPane);
+        panel.add(b1);
+        this.add(panel);
+
+    }
+
+    public void placeCustomerListLabel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        JLabel label = new JLabel("Current Customer List");
+        panel.add(label);
+        this.add(panel);
+    }
+
+    public void playBells() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        String bellSound = "bell.wav";
+        AudioInputStream bell = AudioSystem.getAudioInputStream(new File(bellSound).getAbsoluteFile());
+        Clip bellClip = AudioSystem.getClip();
+        bellClip.open(bell);
+        bellClip.start();
+
+
+    }
 }
 
-
-//        JPanel panel1 = new JPanel();
-//        panel1.setLayout(new FlowLayout());
-//        JLabel name = new JLabel("First name");
-//        JTextField textField = new JTextField(15);
-//        panel1.add(name);
-//        panel1.add(textField);
-//        this.add(panel1);
-
-//        JPanel panel2 = new JPanel();
-//        panel2.setLayout(new FlowLayout());
-//        JLabel name1 = new JLabel("last name");
-//        JTextField textField1 = new JTextField(15);
-//        panel2.add(name1);
-//        panel2.add(textField1);
-//        this.add(panel2);

@@ -1,10 +1,26 @@
 {
   "name": "27/2/2021",
-  "customers": [{
-    "firstName": "asdf",
-    "lastName": "asdf",
-    "phoneNumber": "asdf",
-    "checkInTime": 0,
-    "email": "asdf"
-  }]
+  "customers": [
+    {
+      "firstName": "James",
+      "lastName": "Brown",
+      "phoneNumber": "234234",
+      "checkInTime": 1,
+      "email": "2345324543"
+    },
+    {
+      "firstName": "levi",
+      "lastName": "lau",
+      "phoneNumber": "54053",
+      "checkInTime": 1,
+      "email": "6546054"
+    },
+    {
+      "firstName": "94064",
+      "lastName": "840504",
+      "phoneNumber": "6556",
+      "checkInTime": 1,
+      "email": "6520"
+    }
+  ]
 }

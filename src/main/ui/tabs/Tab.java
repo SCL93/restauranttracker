@@ -14,13 +14,6 @@ import java.util.Calendar;
 public abstract class Tab extends JPanel {
     private RestaurantApp controller;
 
-
-    Calendar timeNow = Calendar.getInstance();
-    int month = timeNow.get(Calendar.MONTH);
-    int day = timeNow.get(Calendar.DATE);
-    int year = timeNow.get(Calendar.YEAR);
-
-
     //REQUIRES: RestaurantApp controller that holds this tab
     public Tab(RestaurantApp controller) {
         this.controller = controller;

@@ -19,16 +19,18 @@ import java.util.Calendar;
 public class AddCustomerTab extends Tab {
     private JScrollPane customerListPane;
     private JTextArea customerListText;
-    private JTextField firstNameField = new JTextField();
-    private JTextField lastNameField = new JTextField();
-    private JTextField phoneNumberField = new JTextField();
-    private JTextField emailField = new JTextField();
+    private final JTextField firstNameField = new JTextField();
+    private final JTextField lastNameField = new JTextField();
+    private final JTextField phoneNumberField = new JTextField();
+    private final JTextField emailField = new JTextField();
     protected CustomerList customerListJson;
     private final JsonWriter jsonWriter;
     private final JsonReader jsonReader;
     private static final String FILE_LOCATION = "./data/customerList.json";
 
 
+    // MODIFIES: this
+    // EFFECTS: construct Add Customer tab and instantiates JSON fields.
     public AddCustomerTab(RestaurantApp controller) {
         super(controller);
 
@@ -53,6 +55,8 @@ public class AddCustomerTab extends Tab {
         placeCustomerListLabel();
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates (string) label and (JTextField) text field JPanel objects.
     public void addLabelInputFields(String type, JTextField inputField) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
@@ -61,9 +65,10 @@ public class AddCustomerTab extends Tab {
         panel.add(label);
         panel.add(inputField);
         this.add(panel);
-
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and places button to add customers. On button press, adds customers to list
     public void placeAddCustomerButton() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -91,6 +96,8 @@ public class AddCustomerTab extends Tab {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: clears JTextField of text, sets to ""
     private void clearAllTextField() {
         firstNameField.setText("");
         lastNameField.setText("");
@@ -98,6 +105,8 @@ public class AddCustomerTab extends Tab {
         emailField.setText("");
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and places load button. Load button will play sound on click, calls method to load json.
     private void placeLoadButton() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -126,6 +135,8 @@ public class AddCustomerTab extends Tab {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and places save button. Load button will play sound on click, calls method to save json.
     private void placeSaveButton() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -155,6 +166,7 @@ public class AddCustomerTab extends Tab {
 
     }
 
+    // MODIFIES: this
     // EFFECTS: save the customerListJson to file
     public void saveCustomerListJson() {
         try {
@@ -180,6 +192,9 @@ public class AddCustomerTab extends Tab {
         playBells();
     }
 
+    // MODIFIES: this
+    // EFFECTS: create and places update button and JTextArea to display customers in current loaded list.
+    //          on button click, refreshes the JTextarea to show most current list if changed.
     public void placeAllCustomerTextBox() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
@@ -206,6 +221,8 @@ public class AddCustomerTab extends Tab {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and places Jlabel for customer list
     public void placeCustomerListLabel() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -214,6 +231,7 @@ public class AddCustomerTab extends Tab {
         this.add(panel);
     }
 
+    // EFFECTS: loads and plays sound file bell.wav once
     public void playBells() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         String bellSound = "bell.wav";
         AudioInputStream bell = AudioSystem.getAudioInputStream(new File(bellSound).getAbsoluteFile());

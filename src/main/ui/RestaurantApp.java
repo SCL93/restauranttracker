@@ -19,9 +19,6 @@ import java.util.*;
 public class RestaurantApp extends JFrame {
     private static final String FILE_LOCATION = "./data/customerList.json";
     private Scanner input;
-//    private CustomerList customerListJson;
-//    private final JsonWriter jsonWriter;
-//    private final JsonReader jsonReader;
     public static final int FRAME_HEIGHT = 800;
     public static final int FRAME_WIDTH = 1000;
     public static final int HOME_TAB_INDEX = 0;
@@ -40,14 +37,6 @@ public class RestaurantApp extends JFrame {
         createJTabPaneTab();     // creates all the tabs and adds to JTabbedPane object
         add(topTabs);            //
         setVisible(true);
-
-//        Calendar timeNow = Calendar.getInstance();
-//        int month = timeNow.get(Calendar.MONTH);
-//        int day = timeNow.get(Calendar.DATE);
-//        int year = timeNow.get(Calendar.YEAR);
-//        customerListJson = new CustomerList(day + "/" + month + "/" + year);
-//        jsonWriter = new JsonWriter(FILE_LOCATION);
-//        jsonReader = new JsonReader(FILE_LOCATION);
 
         Date today = Calendar.getInstance().getTime();
         System.out.println("------------- THE COVID-19 RESTAURANT -------------");
@@ -74,7 +63,6 @@ public class RestaurantApp extends JFrame {
         add(topTabs); // adds the modified topTabs (a JTabbedFrame object) to the container
 
     }
-
 
 
     // EFFECTS: returns topTaps of the JTabbedPane

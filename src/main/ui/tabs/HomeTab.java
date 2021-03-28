@@ -1,30 +1,29 @@
 package ui.tabs;
 
-import model.CustomerList;
-import persistence.JsonReader;
-import persistence.JsonWriter;
 import ui.RestaurantApp;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
+
 
 public class HomeTab extends Tab {
     private JLabel welcomeMessage;
 
+
+    // MODIFIES: this
+    // EFFECTS: construct Home tab
     public HomeTab(RestaurantApp controller) {
         super(controller);
 
         setLayout(new GridLayout(5, 5, 3, 20)); // adjust vertical gap later
         placeWelcomeMessage();
-//        placeLoadButton();
-//        placeSaveButton();
         placeAddCustomerTabButton();
         placeAnalyzeTabButton();
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and adds welcome message on panel
     private void placeWelcomeMessage() {
         welcomeMessage = new JLabel("Welcome, please choose an action", JLabel.CENTER);
         welcomeMessage.setSize(1, (2 / 3));
@@ -32,41 +31,8 @@ public class HomeTab extends Tab {
 
     }
 
-//    private void placeLoadButton() {
-//        JButton loadButton = new JButton("LOAD");
-//        this.add(loadButton);
-//
-//        loadButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (e.getSource() == loadButton) {
-//                    RestaurantApp.
-//                    loadCustomerListFromJson();
-//                    welcomeMessage.setText("CUSTOMER LIST LOADED FROM FILE");
-//                }
-//
-//            }
-//        });
-//
-//    }
-//
-//    private void placeSaveButton() {
-//        JButton saveButton = new JButton("SAVE");
-//        this.add(saveButton);
-//
-//        saveButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (e.getSource() == saveButton) {
-//                    saveCustomerListJson();
-//                    welcomeMessage.setText("CUSTOMER LIST SAVED TO FILE");
-//                }
-//
-//            }
-//        });
-//
-//    }
-
+    // MODIFIES: this
+    // EFFECTS: creates and adds Add Customer Button to panel. Controller switch to AddCustomer tab on click.
     private void placeAddCustomerTabButton() {
         JButton addCustomerButton = new JButton("ADD CUSTOMER");
         this.add(addCustomerButton);
@@ -83,6 +49,8 @@ public class HomeTab extends Tab {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and adds Analyze Button to panel. Controller switch to Analyze tab on click.
     private void placeAnalyzeTabButton() {
         JButton analyzeButton = new JButton("ANALYZE");
         this.add(analyzeButton);

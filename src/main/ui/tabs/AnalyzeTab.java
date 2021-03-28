@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 
 public class AnalyzeTab extends Tab {
-
-
     private ArrayList<Customer> infectedToday;
     private String infectedCustomerName;
     private int infectedCustomerTime;
@@ -29,6 +27,8 @@ public class AnalyzeTab extends Tab {
     private static final String FILE_LOCATION = "./data/customerList.json";
 
 
+    // MODIFIES: this
+    // EFFECTS: creates the analyze tab and instantiates JSON field
     public AnalyzeTab(RestaurantApp controller) {
         super(controller);
         jsonReader = new JsonReader(FILE_LOCATION);
@@ -40,6 +40,9 @@ public class AnalyzeTab extends Tab {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and places the Analyze window and button. On click produce customer who is infected.
+    //          Updates the text panel with name of infected customer.
     public void placeAnalyzeWindow() {
         JPanel panel = initializeAnalysisWindow();
         JButton b1 = new JButton("ANALYZE IF ANYONE GOT COVID");
@@ -63,6 +66,9 @@ public class AnalyzeTab extends Tab {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and places the contactList window and button. On click produce list of customers to contact.
+    //          Updates the text panel name and contact information of contact customers.
     public void contactListButton() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 1));
@@ -87,6 +93,8 @@ public class AnalyzeTab extends Tab {
         this.add(panel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: instantiates JPanel with scroll pane and text area for all Analyze methods.
     public JPanel initializeAnalysisWindow() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 1));
@@ -96,6 +104,8 @@ public class AnalyzeTab extends Tab {
         return panel;
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates the infected today field with infected customers
     public void analysisName() {
         loadCustomerListFromJson();
         ArrayList<Customer> todayCustomers = customerListJson.getCustomerSoFar();
@@ -109,6 +119,8 @@ public class AnalyzeTab extends Tab {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads customerList from save file (replaces current customerList!)
     public void loadCustomerListFromJson() {
         try {
             customerListJson = jsonReader.read();       /// LOADS SAVED INTO CUSTOMER LIST OBJECT

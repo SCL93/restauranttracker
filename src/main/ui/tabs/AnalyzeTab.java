@@ -1,5 +1,6 @@
 package ui.tabs;
 
+import exception.EmptyListException;
 import model.Alert;
 import model.Customer;
 import model.CustomerList;
@@ -42,7 +43,7 @@ public class AnalyzeTab extends Tab {
 
     // MODIFIES: this
     // EFFECTS: creates and places the Analyze window and button. On click produce customer who is infected.
-    //          Updates the text panel with name of infected customer.
+    //          Updates the text panel with name of infected customer, or notify user customer list is empty.
     public void placeAnalyzeWindow() {
         JPanel panel = initializeAnalysisWindow();
         JButton b1 = new JButton("ANALYZE IF ANYONE GOT COVID");
@@ -51,11 +52,15 @@ public class AnalyzeTab extends Tab {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == b1) {
                     customerListText.setText("");
-                    analysisName();
+                    try {
+                        analysisName();
+                    } catch (EmptyListException emptyListException) {
+                        customerListText.append("The Customer List is empty");
+                        return;
+                    }
                     customerListText.append(infectedCustomerName + " got COVID-19!" + "\n" + "\n");
                     customerListText.append(infectedCustomerName + " was at the restaurant at " + infectedCustomerTime
-                            + ". All customers in restaurant during " + infectedCustomerTime
-                            + " must be alerted!");
+                            + ". All customers in restaurant during " + infectedCustomerTime + " must be alerted!");
                 }
             }
         });
@@ -106,7 +111,7 @@ public class AnalyzeTab extends Tab {
 
     // MODIFIES: this
     // EFFECTS: updates the infected today field with infected customers
-    public void analysisName() {
+    public void analysisName() throws EmptyListException {
         loadCustomerListFromJson();
         ArrayList<Customer> todayCustomers = customerListJson.getCustomerSoFar();
         int indexInfected = Infected.randomCovidSelect(todayCustomers);

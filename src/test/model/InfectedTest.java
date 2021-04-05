@@ -1,5 +1,6 @@
 package model;
 
+import exception.EmptyListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,7 @@ class InfectedTest {
     private Customer testCustomer3;
     private Customer testCustomer4;
     ArrayList<Customer> testList = new ArrayList<>();
+    ArrayList<Customer> testList2 = new ArrayList<>();
 
     @BeforeEach
     void runBefore() {
@@ -44,7 +46,12 @@ class InfectedTest {
         int timesDifferentIndexSelected = 0;
         int lastIndexNumber = 0;
         for (int i = 0; i < 10; i++) {
-            int randomNumber = Infected.randomCovidSelect(testList);
+            int randomNumber = 0;
+            try {
+                randomNumber = Infected.randomCovidSelect(testList);
+            } catch (EmptyListException e) {
+                fail("List is not empty, no exception to be caught");
+            }
             if (lastIndexNumber != randomNumber) {
                 timesDifferentIndexSelected++;
                 lastIndexNumber = randomNumber;
@@ -72,5 +79,14 @@ class InfectedTest {
     void testCovidSelectTime() {
         int resultTime = Infected.covidSelectedTime(testCustomer4);
         assertEquals(4, resultTime);
+    }
+    @Test
+    void testEmptyCustomerList(){
+        try {
+            Infected.randomCovidSelect(testList2);
+            fail("List is empty should have caught exception");
+        } catch (EmptyListException e) {
+            // expected
+        }
     }
 }

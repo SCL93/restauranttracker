@@ -44,3 +44,7 @@ PHASE 2
 - As a user, I want to be able to save the list of customers each day to a file
 - As a user, I want to be able to load the list of customers from a file
 
+PHASE 4: TASK 2
+- model.Infected class tested to be robust.
+- Infected.randomCovidSelect removed requires clause, throws checked exception.
+- Exception is caught and handled in ui.tabs.AnalyzeTab.

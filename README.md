@@ -46,5 +46,12 @@ PHASE 2
 
 PHASE 4: TASK 2
 - model.Infected class tested to be robust.
-- Infected.randomCovidSelect removed requires clause, throws checked exception.
+- Infected.randomCovidSelect removed requires clause, throws checked exception for empty list
 - Exception is caught and handled in ui.tabs.AnalyzeTab.
+- Both not caught and caught cases tested in Test package
+
+PHASE4: TASK 3
+- FUTURE REFACTORING:
+- Improve cohesion by introducing association from Infected to Customer
+- Improve cohesion by introducing association from Alert to CustomerList
+- Refactor RestaurantApp to remove console specific code

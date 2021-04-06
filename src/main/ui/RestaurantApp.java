@@ -1,19 +1,11 @@
 package ui;
 
-import model.Alert;
+
 import model.Customer;
-import model.CustomerList;
-import model.Infected;
-import persistence.JsonReader;
-import persistence.JsonWriter;
 import ui.tabs.AddCustomerTab;
 import ui.tabs.AnalyzeTab;
 import ui.tabs.HomeTab;
-import ui.tabs.Tab;
-
 import javax.swing.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
 public class RestaurantApp extends JFrame {
